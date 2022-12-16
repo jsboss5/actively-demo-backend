@@ -34,7 +34,6 @@ class valid_columns(APIView):
 class train_model(APIView):
     def post(self, request, format=None):
         body = get_request_body_decoded(request)
-        print(body)
         pd_data = dictionary_to_pd(body['data'])
         inputs = body['inputs']
         output = body['output']
@@ -50,7 +49,6 @@ class train_model(APIView):
 class inference(APIView):
     def post(self, request, format=None):
         body = get_request_body_decoded(request)
-        print(body)
         input_data = dictionary_to_pd([body['input']])
         model_ID = body['model_ID']
 

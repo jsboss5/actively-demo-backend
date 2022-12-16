@@ -19,10 +19,9 @@ def train_and_store_model(
     database_instance: Fake_Database
 ) -> float:  # probability of output being `True` for hypothetical input
 
-    print(dataset)
-    
-    assert dataset[output].dtype in (bool,)
-    assert all(dataset[input].dtype in (float, int) for input in inputs)
+    dataset = dataset.dropna()    
+    assert dataset[output].dtype in (bool, float)
+    assert all(dataset[input].dtype in (float, int, bool) for input in inputs)
 
     X = dataset[inputs]
     y = dataset[output]
