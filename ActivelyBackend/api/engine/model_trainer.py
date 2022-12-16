@@ -18,6 +18,8 @@ def train_and_store_model(
     inputs: List[str],
     database_instance: Fake_Database
 ) -> float:  # probability of output being `True` for hypothetical input
+
+    print(dataset)
     
     assert dataset[output].dtype in (bool,)
     assert all(dataset[input].dtype in (float, int) for input in inputs)
@@ -32,26 +34,14 @@ def train_and_store_model(
     
 
     return model_id
-    # return model.predict_proba(
-    #     pd.DataFrame({input: [hypothetical_input[input]] for input in inputs})
-    # )[0, model.classes_.tolist().index(True)]
 
+def make_prediction(
+    input: List[str],
+    modelID: int,
+    database_instance: Fake_Database
+) -> float:  # probability of output being `True` for hypothetical input
 
-# def train_model_and_make_prediction(
-#     dataset: pd.DataFrame,
-#     output: str,
-#     inputs: List[str],
-#     hypothetical_input: Dict[str, float],
-# ) -> float:  # probability of output being `True` for hypothetical input
-#     assert dataset[output].dtype in (bool,)
-#     assert all(dataset[input].dtype in (float, int) for input in inputs)
+    print(input)
+    model = database_instance.get_model(modelID)
 
-#     X = dataset[inputs]
-#     y = dataset[output]
-
-#     model = random.choice(MODEL_TYPES)()
-#     model.fit(X, y)
-
-#     return model.predict_proba(
-#         pd.DataFrame({input: [hypothetical_input[input]] for input in inputs})
-#     )[0, model.classes_.tolist().index(True)]
+    return model.predict_proba(input)[0][1]

@@ -47,6 +47,23 @@ class train_model(APIView):
             {"model_id": model_id}
         )
 
+class inference(APIView):
+    def get(self, request, format=None):
+        body = get_request_body_decoded(request)
+        print(body)
+        input_data = dictionary_to_pd([body['input']])
+        model_ID = body['model_ID']
+
+
+        #  I'm sorry I know this is bad but I cant be pressed to fix the circular import right now
+        from .endpoints import global_database_instance
+        truth_probablity = model_trainer.make_prediction(input_data, model_ID, global_database_instance)
+
+        return Response(
+            {"truth_probability": truth_probablity}
+        )
+
+
 # Helper Functions
 def get_request_body_decoded(request):
     body_unicode = request.body.decode('utf-8')
