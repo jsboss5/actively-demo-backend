@@ -12,4 +12,5 @@ urlpatterns = [
     path('inference/', views.inference.as_view())
 ]
 
+# declare the instnce of our pseudo db on applicaiton start
 global_database_instance = Fake_Database()
